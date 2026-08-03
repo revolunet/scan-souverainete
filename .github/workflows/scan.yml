@@ -1,0 +1,75 @@
+name: Scan Souverainete
+
+on:
+  schedule:
+    - cron: "0 2 * * *"  # Tous les jours a 2h UTC
+  workflow_dispatch:      # Declenchement manuel
+
+jobs:
+  scan:
+    name: Analyse de souverainete
+    runs-on: ubuntu-latest
+    timeout-minutes: 360  # 6 heures max pour 200 URLs
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Necessaire pour l'historique Git
+
+      - name: Installer dependances systeme
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq \
+            whois \
+            chromedriver \
+            chromium \
+            jq \
+            parallel \
+            websocat \
+            mmdb-bin \
+            curl
+
+      - name: Mettre a jour la base GeoIP
+        run: |
+          mkdir -p output/geoip
+          curl -L -o /tmp/GeoLite2-Country.tar.gz \
+            "https://geolite.maxmind.com/download/geoip/database/GeoLite2-Country.tar.gz"
+          tar -xz -C output/geoip --strip-components=1 -f /tmp/GeoLite2-Country.tar.gz
+          rm /tmp/GeoLite2-Country.tar.gz
+
+      - name: Verifier les fichiers de configuration
+        run: |
+          mkdir -p output/results output/raw/html output/raw/logs
+          touch data/urls.txt
+          chmod +x scripts/scan_sovereignty.sh scripts/utils/*.sh scripts/install_dependencies.sh
+
+      - name: Executer le scan
+        run: |
+          ./scripts/scan_sovereignty.sh data/urls.txt output 8 60
+
+      - name: Valider les resultats
+        run: |
+          if [ ! -f output/results/_summary.json ]; then
+            echo "ERROR: Le fichier _summary.json n'a pas ete genere"
+            exit 1
+          fi
+          if [ ! -f output/results/urls.json ]; then
+            echo "ERROR: Le fichier urls.json n'a pas ete genere"
+            exit 1
+          fi
+          
+          echo "Resultats valides:"
+          echo "  - $(jq '.stats.total' output/results/_summary.json) URLs traitees"
+          echo "  - $(jq '.stats.success' output/results/_summary.json) succes"
+          echo "  - $(jq '.stats.failed' output/results/_summary.json) echecs"
+
+      - name: Commit des resultats
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git add output/results/ output/raw/html/ output/raw/logs/
+          git status
+          timestamp=$(date -u +"%Y-%m-%d %H:%M")
+          git commit -m "chore(scan): mise a jour des resultats de souverainete - $timestamp" || true
+          git push

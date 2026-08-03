@@ -1,0 +1,26 @@
+# Fichiers bruts (HTML et logs)
+output/raw/
+
+# Base GeoIP (peut être volumineuse)
+output/geoip/
+
+# Fichiers temporaires
+*.tmp
+*.swp
+*~
+
+# Cache
+.cache/
+.tmp/
+
+# Environnement
+.env
+
+# Node
+node_modules/
+dist/
+
+# Output
+output/results/
+output/report.html
+output/social.png

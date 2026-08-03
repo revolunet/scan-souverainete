@@ -1,0 +1,15 @@
+services:
+  scan:
+    build:
+      context: .
+      x-bake:
+        platforms:
+          - linux/amd64
+          - linux/arm64
+    image: scan-souverainete
+    platform: "linux/amd64"
+    volumes:
+      - ./data/urls.txt:/app/data/urls.txt:ro
+      - ./output:/app/output
+    environment:
+      - TZ=UTC

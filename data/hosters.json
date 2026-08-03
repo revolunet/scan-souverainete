@@ -1,0 +1,455 @@
+[
+  {
+    "patterns": ["194.5.170.0/24"],
+    "organization": "Ministère de la Transition Écologique",
+    "country": "FR",
+    "country_name": "France"
+  },
+  {
+    "patterns": [
+      "54.36.0.0/14",
+      "57.128.0.0/14",
+      "141.94.0.0/15",
+      "178.32.0.0/15",
+      "51.254.0.0/15",
+      "54.36.0.0/15",
+      "109.190.0.0/16",
+      "135.125.0.0/16",
+      "135.148.0.0/16",
+      "137.74.0.0/16",
+      "139.99.0.0/16",
+      "144.217.0.0/16",
+      "145.239.0.0/16",
+      "146.59.0.0/16",
+      "148.113.0.0/16",
+      "149.202.0.0/16",
+      "149.56.0.0/16",
+      "15.204.0.0/16",
+      "15.235.0.0/16",
+      "151.127.0.0/16",
+      "151.80.0.0/16",
+      "158.69.0.0/16",
+      "162.19.0.0/16",
+      "164.132.0.0/16",
+      "167.114.0.0/16",
+      "176.31.0.0/16",
+      "188.165.0.0/16",
+      "192.99.0.0/16",
+      "217.182.0.0/16",
+      "37.187.0.0/16",
+      "37.59.0.0/16",
+      "40.160.0.0/16",
+      "46.105.0.0/16",
+      "5.135.0.0/16",
+      "5.196.0.0/16",
+      "51.161.0.0/16",
+      "51.178.0.0/16",
+      "51.195.0.0/16",
+      "51.210.0.0/16",
+      "51.222.0.0/16",
+      "51.38.0.0/16",
+      "51.68.0.0/16",
+      "51.75.0.0/16",
+      "51.77.0.0/16",
+      "51.79.0.0/16",
+      "51.81.0.0/16",
+      "51.83.0.0/16",
+      "51.89.0.0/16",
+      "51.91.0.0/16",
+      "54.38.0.0/16",
+      "54.39.0.0/16",
+      "91.121.0.0/16",
+      "91.134.0.0/16",
+      "92.222.0.0/16",
+      "94.23.0.0/16",
+      "139.99.0.0/17",
+      "141.227.128.0/17",
+      "142.44.128.0/17",
+      "147.135.0.0/17",
+      "147.135.128.0/17",
+      "152.228.128.0/17",
+      "193.70.0.0/17",
+      "198.50.128.0/17",
+      "213.32.0.0/17",
+      "5.196.128.0/17",
+      "5.39.0.0/17",
+      "66.70.128.0/17",
+      "72.251.0.0/17",
+      "79.137.0.0/17",
+      "87.98.128.0/17",
+      "107.189.64.0/18",
+      "109.190.0.0/18",
+      "109.190.128.0/18",
+      "109.190.64.0/18",
+      "151.127.0.0/18",
+      "188.165.192.0/18",
+      "192.95.0.0/18",
+      "198.27.64.0/18",
+      "213.251.128.0/18",
+      "5.196.64.0/18",
+      "87.98.128.0/18",
+      "91.121.64.0/18",
+      "94.23.192.0/18",
+      "109.190.192.0/19",
+      "142.4.192.0/19",
+      "151.80.128.0/19",
+      "167.114.224.0/19",
+      "213.186.32.0/19",
+      "23.92.224.0/19",
+      "37.187.0.0/19",
+      "37.59.96.0/19",
+      "46.105.0.0/19",
+      "5.196.32.0/19",
+      "91.121.32.0/19",
+      "92.222.64.0/19",
+      "109.190.224.0/20",
+      "188.165.32.0/20",
+      "198.100.144.0/20",
+      "198.245.48.0/20",
+      "5.196.16.0/20"
+    ],
+    "organization": "OVH",
+    "country": "FR",
+    "country_name": "France"
+  },
+  {
+    "patterns": [
+      "149.126.76.0/24",
+      "45.60.33.0/24",
+      "45.60.64.0/24",
+      "45.60.39.0/24"
+    ],
+    "organization": "Thales/Imperva",
+    "country": "FR",
+    "country_name": "France"
+  },
+  {
+    "patterns": ["185.140.221.0/24"],
+    "organization": "Sarbacane Software",
+    "country": "FR",
+    "country_name": "France"
+  },
+  {
+    "patterns": ["185.170.44.0/22"],
+    "organization": "BoScop",
+    "country": "FR",
+    "country_name": "France"
+  },
+  {
+    "patterns": ["141.101.90.107/24"],
+    "organization": "Brevo",
+    "country": "FR",
+    "country_name": "France"
+  },
+  {
+    "patterns": [
+      "*.outscale.com",
+      "outscale.com",
+      "outscale",
+      "OUTSCALE",
+      "146.183.0.0/16",
+      "160.228.0.0/16",
+      "148.253.64.0/18",
+      "171.33.64.0/18",
+      "142.44.32.0/19",
+      "217.75.160.0/20",
+      "80.247.0.0/20",
+      "109.232.232.0/24"
+    ],
+    "organization": "Outscale",
+    "country": "FR",
+    "country_name": "France"
+  },
+  {
+    "patterns": [
+      "*.scaleway.com",
+      "scaleway.com",
+      "scaleway",
+      "online.net",
+      "*.online.net",
+      "*.scw.cloud"
+    ],
+    "organization": "Scaleway",
+    "country": "FR",
+    "country_name": "France"
+  },
+  {
+    "patterns": ["*.ovh.com", "ovh.com", "ovh.net", "*.ovh.net", "ovh"],
+    "organization": "OVHcloud",
+    "country": "FR",
+    "country_name": "France"
+  },
+  {
+    "patterns": ["*.ovhcloud.com", "ovhcloud.com"],
+    "organization": "OVHcloud",
+    "country": "FR",
+    "country_name": "France"
+  },
+  {
+    "patterns": ["*.ip-paris.fr", "*.interieur.gouv.fr", "interieur.gouv.fr"],
+    "organization": "Ministère de l'Intérieur",
+    "country": "FR",
+    "country_name": "France"
+  },
+  {
+    "patterns": ["*.outlook.com"],
+    "organization": "Microsoft",
+    "country": "US",
+    "country_name": "United States"
+  },
+  {
+    "patterns": [
+      "*.amazonaws.com",
+      "amazonaws.com",
+      "aws",
+      "*.awsglobalaccelerator.com"
+    ],
+    "organization": "Amazon Web Services",
+    "country": "US",
+    "country_name": "United States"
+  },
+  {
+    "patterns": ["*.cloudfront.net"],
+    "organization": "Amazon CloudFront",
+    "country": "US",
+    "country_name": "United States"
+  },
+  {
+    "patterns": [
+      "*.google.com",
+      "google.com",
+      "*.googleapis.com",
+      "*.googlevideo.com",
+      "google"
+    ],
+    "organization": "Google",
+    "country": "US",
+    "country_name": "United States"
+  },
+  {
+    "patterns": [
+      "*.cloudflare.com",
+      "cloudflare.com",
+      "cloudflare",
+      "104.16.0.0/12",
+      "104.16.0.0/13",
+      "172.64.0.0/13",
+      "104.24.0.0/14",
+      "162.158.0.0/15",
+      "198.41.128.0/17",
+      "108.162.192.0/18",
+      "141.101.64.0/18",
+      "173.245.48.0/20",
+      "188.114.96.0/20",
+      "190.93.240.0/20",
+      "141.101.104.0/21",
+      "141.101.112.0/21",
+      "141.101.80.0/21",
+      "141.101.88.0/21",
+      "141.101.96.0/21",
+      "188.114.104.0/21",
+      "188.114.96.0/21",
+      "199.27.128.0/21",
+      "103.21.244.0/22",
+      "103.22.200.0/22",
+      "103.31.4.0/22",
+      "131.0.72.0/22",
+      "141.101.120.0/22",
+      "197.234.240.0/22",
+      "103.21.246.0/23",
+      "141.101.78.0/23",
+      "141.101.124.0/24",
+      "141.101.125.0/24",
+      "141.101.126.0/24",
+      "141.101.127.0/24",
+      "141.101.66.0/24",
+      "141.101.70.0/24",
+      "141.101.71.0/24",
+      "141.101.74.0/24",
+      "141.101.75.0/24",
+      "185.122.0.0/24",
+      "204.93.173.0/24"
+    ],
+    "organization": "Cloudflare",
+    "country": "US",
+    "country_name": "United States"
+  },
+  {
+    "patterns": ["*.fastly.net", "fastly.net", "fastly"],
+    "organization": "Fastly",
+    "country": "US",
+    "country_name": "United States"
+  },
+  {
+    "patterns": [
+      "*.azure.com",
+      "azure.com",
+      "*.azure.net",
+      "*.azureedge.net",
+      "*.microsoft.com",
+      "microsoft",
+      "azure"
+    ],
+    "organization": "Microsoft Azure",
+    "country": "US",
+    "country_name": "United States"
+  },
+  {
+    "patterns": ["*.akamai.net", "akamai.net", "akamai", "*.akamaiedge.net"],
+    "organization": "Akamai",
+    "country": "US",
+    "country_name": "United States"
+  },
+  {
+    "patterns": ["*.github.com", "github.com", "github"],
+    "organization": "GitHub",
+    "country": "US",
+    "country_name": "United States"
+  },
+  {
+    "patterns": ["*.gitlab.com", "gitlab.com", "gitlab"],
+    "organization": "GitLab",
+    "country": "NL",
+    "country_name": "Netherlands"
+  },
+  {
+    "patterns": ["*.meta.com", "meta.com", "*.facebook.com", "*.fbcdn.net"],
+    "organization": "Meta",
+    "country": "US",
+    "country_name": "United States"
+  },
+  {
+    "patterns": ["*.cloud.ionos.com", "ionos", "*.ionos.com"],
+    "organization": "IONOS",
+    "country": "DE",
+    "country_name": "Germany"
+  },
+  {
+    "patterns": ["*.digitalocean.com", "digitalocean.com", "digitalocean"],
+    "organization": "DigitalOcean",
+    "country": "US",
+    "country_name": "United States"
+  },
+  {
+    "patterns": ["*.linode.com", "linode.com", "linode"],
+    "organization": "Akamai (Linode)",
+    "country": "US",
+    "country_name": "United States"
+  },
+  {
+    "patterns": ["*.hetzner.com", "hetzner.com", "hetzner", "*.hetzner.cloud"],
+    "organization": "Hetzner",
+    "country": "DE",
+    "country_name": "Germany"
+  },
+  {
+    "patterns": ["*.vercel.com", "vercel.com", "vercel"],
+    "organization": "Vercel",
+    "country": "US",
+    "country_name": "United States"
+  },
+  {
+    "patterns": ["*.netlify.com", "netlify.com", "netlify"],
+    "organization": "Netlify",
+    "country": "US",
+    "country_name": "United States"
+  },
+  {
+    "patterns": ["*.heroku.com", "heroku.com", "heroku"],
+    "organization": "Salesforce (Heroku)",
+    "country": "US",
+    "country_name": "United States"
+  },
+  {
+    "patterns": [
+      "*.clever-cloud.com",
+      "clever-cloud.com",
+      "clevercloud",
+      "82.47.250.0/24",
+      "82.47.251.0/24",
+      "185.133.116.0/22",
+      "91.208.207.0/24"
+    ],
+    "organization": "Clever Cloud",
+    "country": "FR",
+    "country_name": "France"
+  },
+  {
+    "patterns": ["*.alwaysdata.net", "alwaysdata.net", "alwaysdata"],
+    "organization": "alwaysdata",
+    "country": "FR",
+    "country_name": "France"
+  },
+  {
+    "patterns": ["*.infomaniak.com", "infomaniak.com", "infomaniak"],
+    "organization": "Infomaniak",
+    "country": "CH",
+    "country_name": "Switzerland"
+  },
+  {
+    "patterns": ["*.swisscenter.com", "swisscenter.com", "swisscenter"],
+    "organization": "Swisscenter",
+    "country": "CH",
+    "country_name": "Switzerland"
+  },
+  {
+    "patterns": ["*.gandi.net", "gandi.net", "gandi"],
+    "organization": "Gandi",
+    "country": "FR",
+    "country_name": "France"
+  },
+  {
+    "patterns": ["*.safebrands.com", "safebrands.com"],
+    "organization": "SafeBrands",
+    "country": "FR",
+    "country_name": "France"
+  },
+  {
+    "patterns": ["*.cdn77.com", "cdn77.com", "cdn77"],
+    "organization": "CDN77",
+    "country": "CZ",
+    "country_name": "Czech Republic"
+  },
+  {
+    "patterns": ["*.bunnycdn.com", "bunnycdn.com", "bunny.net", "*.bunny.net"],
+    "organization": "Bunny CDN",
+    "country": "US",
+    "country_name": "United States"
+  },
+  {
+    "patterns": ["*.stackpath.com", "stackpath.com", "stackpath"],
+    "organization": "StackPath",
+    "country": "US",
+    "country_name": "United States"
+  },
+  {
+    "patterns": ["*.keycdn.com", "keycdn.com"],
+    "organization": "KeyCDN",
+    "country": "CH",
+    "country_name": "Switzerland"
+  },
+  {
+    "patterns": ["*.jsdelivr.net", "jsdelivr.net"],
+    "organization": "jsDelivr",
+    "country": "LT",
+    "country_name": "Lithuania"
+  },
+  {
+    "patterns": ["*.unpkg.com", "unpkg.com"],
+    "organization": "npm / Cloudflare",
+    "country": "US",
+    "country_name": "United States"
+  },
+  {
+    "patterns": ["*.cdnjs.cloudflare.com"],
+    "organization": "CDNJS / Cloudflare",
+    "country": "US",
+    "country_name": "United States"
+  },
+  {
+    "patterns": ["*.mx", "*.lu"],
+    "organization": "État du Luxembourg",
+    "country": "LU",
+    "country_name": "Luxembourg"
+  }
+]

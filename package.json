@@ -1,0 +1,23 @@
+{
+  "name": "scan-souverainete",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "report": "node dist/report.js",
+    "social": "node dist/social.js",
+    "clean": "node dist/clean.js",
+    "dev": "node --loader ts-node/esm src/index.ts"
+  },
+  "dependencies": {
+    "puppeteer": "^24.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.7.0"
+  },
+  "allowScripts": {
+    "puppeteer@24.43.1": true
+  }
+}
