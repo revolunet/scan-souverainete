@@ -288,31 +288,63 @@ ${
 
 ${
   nonFrDepCount > 0
-    ? `<div class="card" style="margin-bottom:1.5rem">
-  <h2 style="color:#fbbf24">🔗 Ressources externes hors de France</h2>
-  ${(() => {
-    const bySource: Record<
-      string,
-      { source_url: string; orgCounts: Record<string, number> }
-    > = {};
-    for (const d of non_fr_dependencies) {
-      if (!bySource[d.source_url])
-        bySource[d.source_url] = { source_url: d.source_url, orgCounts: {} };
-      const org = d.organization || "?";
-      bySource[d.source_url].orgCounts[org] =
-        (bySource[d.source_url].orgCounts[org] || 0) + 1;
-    }
-    return Object.values(bySource)
-      .map((e) => {
-        const orgs = Object.entries(e.orgCounts)
-          .map(
-            ([org, count]) => `<span class="chip us">${org}: ${count}</span>`,
-          )
-          .join(" ");
-        return `<div class="detail-item"><div class="detail-url">${e.source_url}</div><div>${orgs}</div></div>`;
-      })
-      .join("");
-  })()}
+    ? `<div class="grid">
+  <div class="card">
+    <h2 style="color:#fbbf24">🔗 Top des dépendances non-FR (tous domaines)</h2>
+    ${(() => {
+      const depsCounts: Record<string, number> = {};
+      for (const d of non_fr_dependencies) {
+        const domain = d.domain || "";
+        depsCounts[domain] = (depsCounts[domain] || 0) + 1;
+      }
+      const sortedDeps = Object.entries(depsCounts).sort((a, b) => b[1] - a[1]);
+      if (sortedDeps.length === 0) return '<p class="subtitle">Aucune donnée</p>';
+      const max = sortedDeps[0][1];
+      return `
+        <table>
+          <thead><tr><th>Domaine</th><th>Pays</th><th>Organisation</th><th></th><th class="num">Count</th></tr></thead>
+          <tbody>${sortedDeps
+            .map(([domain, count]) => {
+              const bw = Math.round((count / max) * 100);
+              const depInfo = non_fr_dependencies.find(d => d.domain === domain);
+              const country = depInfo?.country || "";
+              const countryName = depInfo?.country_name || "";
+              const org = depInfo?.organization || "";
+              const flag = country ? countryFlag[country] || "" : "";
+              return `<tr><td>${domain}</td><td><span class="flag">${flag}</span> ${country}</td><td>${org}</td><td class="bar-cell"><div class="bar-bg"><div class="bar" style="width:${bw}%"></div></div></td><td class="num">${count}</td></tr>`;
+            })
+            .join("")}</tbody>
+        </table>
+      `;
+    })()}
+  </div>
+
+  <div class="card">
+    <h2 style="color:#fbbf24">🔗 Ressources externes hors de France par site</h2>
+    ${(() => {
+      const bySource: Record<
+        string,
+        { source_url: string; orgCounts: Record<string, number> }
+      > = {};
+      for (const d of non_fr_dependencies) {
+        if (!bySource[d.source_url])
+          bySource[d.source_url] = { source_url: d.source_url, orgCounts: {} };
+        const org = d.organization || "?";
+        bySource[d.source_url].orgCounts[org] =
+          (bySource[d.source_url].orgCounts[org] || 0) + 1;
+      }
+      return Object.values(bySource)
+        .map((e) => {
+          const orgs = Object.entries(e.orgCounts)
+            .map(
+              ([org, count]) => `<span class="chip us">${org}: ${count}</span>`,
+            )
+            .join(" ");
+          return `<div class="detail-item"><div class="detail-url">${e.source_url}</div><div>${orgs}</div></div>`;
+        })
+        .join("");
+    })()}
+  </div>
 </div>`
     : ""
 }
