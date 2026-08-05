@@ -6,9 +6,9 @@
     "build": "tsc",
     "start": "node dist/index.js",
     "report": "node dist/report.js",
-    "social": "node dist/social.js",
     "clean": "node dist/clean.js",
-    "dev": "node --loader ts-node/esm src/index.ts"
+    "dev": "node --loader ts-node/esm src/index.ts",
+    "geoip": "mkdir -p output/geoip && curl -L -o output/geoip/GeoLite2-Country.mmdb https://github.com/P3TERX/GeoLite.mmdb/releases/latest/download/GeoLite2-Country.mmdb"
   },
   "dependencies": {
     "puppeteer": "^24.0.0"

@@ -1,3 +1,14 @@
+version: "1.0"
 scopeconfig:
-
 - scope: node
+fileignoreconfig:
+- filename: opencode.json
+  checksum: c7d2f09332b0a1feca3f68c4a83ac92fb347c9d6921a762accd183dcdfad1576
+- filename: AGENTS.md
+  checksum: 90535dd77a0b49bb404f17675b515997d670b37983bb161d3c15caf0f8e3f084
+- filename: src/index.ts
+  checksum: 355398ef6cbb012b426f62e2845f2340df1bc7aa2bb5655360b64d739c751241
+- filename: .agent-vm.runtime.sh
+  checksum: c466e589ea48c90ad5cdf638ea4709c3c36caded17ea68e40e801c746c791cc4
+- filename: data/hosters.json
+  checksum: cc2325a7be0a8ca982ec14747cc30cebd63da92edbe8cb6b32b90df577b3e451

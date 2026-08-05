@@ -6,6 +6,12 @@
     "country_name": "France"
   },
   {
+    "patterns": ["195.214.226.0/24"],
+    "organization": "Alienor.net SARL",
+    "country": "FR",
+    "country_name": "France"
+  },
+  {
     "patterns": [
       "54.36.0.0/14",
       "57.128.0.0/14",
@@ -142,6 +148,12 @@
     "country_name": "France"
   },
   {
+    "patterns": ["31.193.48.0/21"],
+    "organization": "Orange",
+    "country": "FR",
+    "country_name": "France"
+  },
+  {
     "patterns": [
       "*.outscale.com",
       "outscale.com",
@@ -167,9 +179,40 @@
       "scaleway",
       "online.net",
       "*.online.net",
-      "*.scw.cloud"
+      "*.scw.cloud",
+      "51.158.0.0/15"
     ],
     "organization": "Scaleway",
+    "country": "FR",
+    "country_name": "France"
+  },
+  {
+    "patterns": ["151.101.0.0/22"],
+    "organization": "Fastly",
+    "country": "US",
+    "country_name": "United States"
+  },
+  {
+    "patterns": ["185.161.47.0/24"],
+    "organization": "EuroFiber",
+    "country": "FR",
+    "country_name": "France"
+  },
+  {
+    "patterns": ["79.127.134.0/24"],
+    "organization": "DataCamp",
+    "country": "FR",
+    "country_name": "France"
+  },
+  {
+    "patterns": ["185.24.184.0/24"],
+    "organization": "DINUM",
+    "country": "FR",
+    "country_name": "France"
+  },
+  {
+    "patterns": ["193.56.4.0/22"],
+    "organization": "Renater",
     "country": "FR",
     "country_name": "France"
   },
@@ -188,6 +231,12 @@
   {
     "patterns": ["*.ip-paris.fr", "*.interieur.gouv.fr", "interieur.gouv.fr"],
     "organization": "Ministère de l'Intérieur",
+    "country": "FR",
+    "country_name": "France"
+  },
+  {
+    "patterns": ["*.cloud-temple.com"],
+    "organization": "Cloud temple",
     "country": "FR",
     "country_name": "France"
   },

@@ -1,6 +1,13 @@
 #!/usr/bin/env node
 
-import { readFileSync, mkdirSync, writeFileSync, existsSync, readdirSync, rmSync } from "node:fs";
+import {
+  readFileSync,
+  mkdirSync,
+  writeFileSync,
+  existsSync,
+  readdirSync,
+  rmSync,
+} from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { fetchPage } from "./utils/fetcher.js";
@@ -16,19 +23,21 @@ import { UrlResult, Summary, ExternalResource } from "./types.js";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const PROJECT_DIR = resolve(__dirname, "..");
 
+const args = process.argv.slice(2);
+const forceRescan = args.includes("--force");
+const filteredArgs = args.filter((arg) => arg !== "--force");
+
 const [
-  ,
-  ,
   urlsFileArg = `${PROJECT_DIR}/data/urls.txt`,
   outputDirArg = `${PROJECT_DIR}/output`,
   parallelJobsArg = "8",
-  timeoutArg = "60",
-] = process.argv;
+  timeoutArg = "30",
+] = filteredArgs;
 
 const URLS_FILE = resolve(urlsFileArg);
 const OUTPUT_DIR = resolve(outputDirArg);
 const PARALLEL_JOBS = parseInt(parallelJobsArg, 10) || 4;
-const TIMEOUT = parseInt(timeoutArg, 10) || 60;
+const TIMEOUT = parseInt(timeoutArg, 10) || 30;
 const GEOIP_DB = `${OUTPUT_DIR}/geoip/GeoLite2-Country.mmdb`;
 const RESULTS_DIR = `${OUTPUT_DIR}/results`;
 const ERROR_LOG = `${OUTPUT_DIR}/raw/logs/errors.log`;
@@ -140,18 +149,15 @@ async function main() {
   }
 
   if (!existsSync(GEOIP_DB)) {
-    console.warn(`[WARN] GeoIP DB not found: ${GEOIP_DB} (géolocalisation désactivée)`);
+    console.warn(
+      `[WARN] GeoIP DB not found: ${GEOIP_DB} (géolocalisation désactivée)`,
+    );
   }
 
   const urls = readFileSync(URLS_FILE, "utf-8")
     .split("\n")
     .map((l) => l.replace(/#.*$/, "").trim())
     .filter(Boolean);
-
-  console.log(`URLs to process: ${urls.length}`);
-  console.log(`Parallel jobs: ${PARALLEL_JOBS}`);
-  console.log(`Timeout per URL: ${TIMEOUT}s`);
-  console.log("----------------------------------------");
 
   // Remove stale per-URL results from previous runs
   const expectedSlugs = new Set(urls.map((u) => slug(u)));
@@ -167,6 +173,45 @@ async function main() {
     }
   }
 
+  // Filter out URLs that already have a result file unless --force is set
+  const urlsToProcess: string[] = [];
+  const skippedUrls: string[] = [];
+
+  for (const rawUrl of urls) {
+    const resultFile = `${RESULTS_DIR}/${slug(rawUrl)}.json`;
+    if (existsSync(resultFile) && !forceRescan) {
+      // Check if the existing file has valid data (ip_info is not null)
+      try {
+        const existingResult = JSON.parse(readFileSync(resultFile, "utf-8"));
+        if (existingResult.ip_info !== null) {
+          skippedUrls.push(rawUrl);
+          continue;
+        }
+      } catch {
+        // If file is corrupted, reprocess it
+        urlsToProcess.push(rawUrl);
+        continue;
+      }
+    }
+    urlsToProcess.push(rawUrl);
+  }
+
+  if (skippedUrls.length > 0) {
+    console.log(
+      `[SKIP] Skipping ${skippedUrls.length} URLs with existing valid data.`,
+    );
+    if (forceRescan) {
+      console.log("[FORCE] Re-scanning all URLs due to --force flag.");
+    }
+  }
+
+  console.log(
+    `URLs to process: ${urlsToProcess.length} (skipped: ${skippedUrls.length})`,
+  );
+  console.log(`Parallel jobs: ${PARALLEL_JOBS}`);
+  console.log(`Timeout per URL: ${TIMEOUT}s`);
+  console.log("----------------------------------------");
+
   let aborted = false;
   const results: UrlResult[] = [];
 
@@ -179,8 +224,8 @@ async function main() {
   async function worker(): Promise<void> {
     while (!aborted) {
       const i = index++;
-      if (i >= urls.length) return;
-      const rawUrl = urls[i];
+      if (i >= urlsToProcess.length) return;
+      const rawUrl = urlsToProcess[i];
       try {
         const result = await processUrl(rawUrl);
         results.push(result);
@@ -210,16 +255,115 @@ async function main() {
   const succeeded = results.filter((r) => r.ip_info !== null);
   const failed = results.filter((r) => r.ip_info === null);
 
+  // Include skipped URLs (with existing valid data) in the succeeded count
+  const totalValidUrls = succeeded.length + skippedUrls.length;
+
   const countries: Record<string, number> = {};
   const organizations: Record<string, number> = {};
   const dependencies: Record<string, number> = {};
   const depsByCountry: Record<string, number> = {};
-  const nonFrDeps: Array<{ source_url: string; domain: string; organization: string | null; country: string | null; country_name: string | null }> = [];
-  const nonFrHosted: Array<{ url: string; hostname: string; organization: string | null; country: string | null; country_name: string | null }> = [];
-  const nonFrMx: Array<{ url: string; hostname: string; organization: string | null; country: string | null; country_name: string | null }> = [];
+  const nonFrDeps: Array<{
+    source_url: string;
+    domain: string;
+    organization: string | null;
+    country: string | null;
+    country_name: string | null;
+  }> = [];
+  const nonFrHosted: Array<{
+    url: string;
+    hostname: string;
+    organization: string | null;
+    country: string | null;
+    country_name: string | null;
+  }> = [];
+  const nonFrMx: Array<{
+    url: string;
+    hostname: string;
+    organization: string | null;
+    country: string | null;
+    country_name: string | null;
+  }> = [];
   const orgsCountry: Record<string, string> = {};
   const mxHosters: Record<string, number> = {};
   const mxHostersCountry: Record<string, string> = {};
+  // Process skipped URLs (existing valid data) for summary computation
+  for (const skippedUrl of skippedUrls) {
+    try {
+      const resultFile = `${RESULTS_DIR}/${slug(skippedUrl)}.json`;
+      const existingResult = JSON.parse(readFileSync(resultFile, "utf-8"));
+
+      // Include existing data in summary computations
+      const ip = existingResult.ip_info;
+      if (ip?.country) {
+        countries[ip.country] = (countries[ip.country] || 0) + 1;
+        if (ip.country !== "FR") {
+          nonFrHosted.push({
+            url: skippedUrl,
+            hostname: existingResult.hostname,
+            organization: ip.organization,
+            country: ip.country,
+            country_name: ip.country_name,
+          });
+        }
+      }
+      if (ip?.organization) {
+        organizations[ip.organization] =
+          (organizations[ip.organization] || 0) + 1;
+        if (ip.country && !orgsCountry[ip.organization]) {
+          orgsCountry[ip.organization] = ip.country;
+        }
+      }
+
+      // Process resources from existing data
+      for (const res of existingResult.resources || []) {
+        let domain: string;
+        try {
+          domain = new URL(res.url).hostname.replace(/^www\./, "");
+        } catch {
+          continue;
+        }
+        dependencies[domain] = (dependencies[domain] || 0) + 1;
+        const depCountry = res.ip_info?.country;
+        if (depCountry)
+          depsByCountry[depCountry] = (depsByCountry[depCountry] || 0) + 1;
+        if (depCountry && depCountry !== "FR") {
+          nonFrDeps.push({
+            source_url: skippedUrl,
+            domain,
+            organization: res.ip_info?.organization ?? null,
+            country: depCountry,
+            country_name: res.ip_info?.country_name ?? null,
+          });
+        }
+      }
+
+      // Process MX records from existing data
+      for (const mx of existingResult.mx || []) {
+        if (mx.ip_info?.organization) {
+          mxHosters[mx.ip_info.organization] =
+            (mxHosters[mx.ip_info.organization] || 0) + 1;
+          if (
+            mx.ip_info.country &&
+            !mxHostersCountry[mx.ip_info.organization]
+          ) {
+            mxHostersCountry[mx.ip_info.organization] = mx.ip_info.country;
+          }
+        }
+        if (mx.ip_info?.country && mx.ip_info.country !== "FR") {
+          nonFrMx.push({
+            url: skippedUrl,
+            hostname: mx.host,
+            organization: mx.ip_info.organization,
+            country: mx.ip_info.country,
+            country_name: mx.ip_info.country_name,
+          });
+        }
+      }
+    } catch {
+      // Skip corrupted files
+      continue;
+    }
+  }
 
   for (const r of succeeded) {
     const ip = r.ip_info;
@@ -236,15 +380,19 @@ async function main() {
       }
     }
     if (ip?.organization) {
-      organizations[ip.organization] = (organizations[ip.organization] || 0) + 1;
+      organizations[ip.organization] =
+        (organizations[ip.organization] || 0) + 1;
       if (ip.country && !orgsCountry[ip.organization]) {
         orgsCountry[ip.organization] = ip.country;
       }
     }
     if (!orgsCountry[ip?.organization ?? ""] && hostersData) {
       const hMatch = findHoster(hostersData, {
-        ip: ip?.ip ?? null, asn: null, host: null,
-        hostname: ip?.hostname ?? null, netname: null,
+        ip: ip?.ip ?? null,
+        asn: null,
+        host: null,
+        hostname: ip?.hostname ?? null,
+        netname: null,
         organization: ip?.organization ?? null,
       });
       if (hMatch && hMatch.entry.country) {
@@ -261,7 +409,8 @@ async function main() {
       }
       dependencies[domain] = (dependencies[domain] || 0) + 1;
       const depCountry = res.ip_info?.country;
-      if (depCountry) depsByCountry[depCountry] = (depsByCountry[depCountry] || 0) + 1;
+      if (depCountry)
+        depsByCountry[depCountry] = (depsByCountry[depCountry] || 0) + 1;
       if (depCountry && depCountry !== "FR") {
         nonFrDeps.push({
           source_url: r.url,
@@ -282,8 +431,11 @@ async function main() {
         }
         if (!mxHostersCountry[mx.ip_info.organization] && hostersData) {
           const hMatch = findHoster(hostersData, {
-            ip: mx.ip_info.ip, asn: null, host: mx.host,
-            hostname: mx.ip_info.hostname, netname: null,
+            ip: mx.ip_info.ip,
+            asn: null,
+            host: mx.host,
+            hostname: mx.ip_info.hostname,
+            netname: null,
             organization: mx.ip_info.organization,
           });
           if (hMatch && hMatch.entry.country) {
@@ -306,14 +458,18 @@ async function main() {
   const summary: Summary = {
     timestamp: new Date().toISOString(),
     stats: {
-      total: urls.length,
-      success: succeeded.length,
+      total: totalValidUrls + failed.length,
+      success: totalValidUrls,
       failed: failed.length,
     },
     hosting: { countries, organizations, organizations_country: orgsCountry },
     dependencies,
     dependencies_by_country: depsByCountry,
-    non_fr_dependencies: nonFrDeps,
+    non_fr_dependencies: Array.from(
+      new Map(
+        nonFrDeps.map((d) => [`${d.source_url}|${d.domain}`, d]),
+      ).values(),
+    ),
     non_fr_hosted_urls: nonFrHosted,
     non_fr_mx_urls: nonFrMx,
     mx_hosters: mxHosters,

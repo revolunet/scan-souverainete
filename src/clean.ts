@@ -7,7 +7,7 @@ const outputDir = resolve(process.argv[2] || "output");
 const targets = [
   `${outputDir}/results`,
   `${outputDir}/raw`,
-  `${outputDir}/geoip`,
+  //  `${outputDir}/geoip`,
   `${outputDir}/report.html`,
 ];
 
