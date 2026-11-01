@@ -11,7 +11,7 @@
     "geoip": "mkdir -p output/geoip && curl -L -o output/geoip/GeoLite2-Country.mmdb https://github.com/P3TERX/GeoLite.mmdb/releases/latest/download/GeoLite2-Country.mmdb"
   },
   "dependencies": {
-    "puppeteer": "^24.0.0"
+    "puppeteer": "^25.16.0"
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
